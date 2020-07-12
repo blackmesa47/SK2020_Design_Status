@@ -28,7 +28,7 @@ Public Class Form1
         End If
     End Sub
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        If True Then
+        If True Then 'wtf xd
             Dim dataSet As New DataSet()
             Dim table As New DataTable("Student")
             AddNewColumn(table, "System.String", "sAreaID")
@@ -37,8 +37,10 @@ Public Class Form1
             AddNewColumn(table, "System.String", "sFixtureVer")
             AddNewColumn(table, "System.String", "sFrgStat")
             ProgressBar1.Value = 20
-            Dim now As Date = DateAndTime.Now
-            'Try
+            labelFRGCounter.Text = 0
+            labelPPTCounter.Text = 0
+            labelEmailCounter.Text = 0
+            labelInsimCounter.Text = 0
             Dim enumerator As IEnumerator(Of String) = Directory.EnumerateDirectories(sSciezka.Text).GetEnumerator()
             While enumerator.MoveNext()
                 Dim current As String = enumerator.Current
@@ -116,14 +118,17 @@ Public Class Form1
                                         Dim bool_10 As Boolean = bool_6
                                         If bool_10 AndAlso bool_5 Then
                                             AktStatusKonstrukcji = "Free for detailing"
+                                            labelFRGCounter.Text = labelFRGCounter.Text + 1
                                         Else
                                             Dim bool_11 As Boolean = bool_5
                                             If bool_11 Then
                                                 AktStatusKonstrukcji = "EML/MSG (" + TematMaila + ")"
+                                                labelEmailCounter.Text = labelEmailCounter.Text + 1
                                             Else
                                                 Dim bool_12 As Boolean = bool_4
                                                 If bool_12 Then
                                                     AktStatusKonstrukcji = "PPT (" + NazwaPlikuPrezentacji + ")"
+                                                    labelPPTCounter.Text = labelPPTCounter.Text + 1
                                                 End If
                                             End If
                                         End If
@@ -194,9 +199,10 @@ Public Class Form1
             Me.DataGridView1.CurrentCell = Nothing
             s_FilterCountAll = DataGridView1.RowCount
             s_FilterLabel.Text = s_FilterCountAll & " / " & s_FilterCountAll
+            labelInsimCounter.Text = s_FilterCountAll - labelEmailCounter.Text - labelFRGCounter.Text - labelPPTCounter.Text
             Dim now2 As DateTime = DateAndTime.Now
             Dim varOFO0 As Label = Label3
-            Dim timeSpan As TimeSpan = now2.Subtract(now)
+            Dim timeSpan As TimeSpan = now2.Subtract(DateAndTime.Now)
             Dim totalSeconds As Double = timeSpan.TotalSeconds
             varOFO0.Text = totalSeconds.ToString("0.00") + "s"
             ProgressBar1.Value = 100
@@ -247,7 +253,7 @@ Public Class Form1
             dgvRow.Visible = False
             Exit Sub
         End If
-        'kolorowanie wierszy
+        'row coloring start:
         If dgvRow.Cells("sFrgStat").Value = "Free for detailing" AndAlso LCase(dgvRow.Cells("sFixtureVer").Value).Contains("_kin") Then
             dgvRow.DefaultCellStyle.BackColor = Color.LightBlue
         ElseIf dgvRow.Cells("sFrgStat").Value = "Free for detailing" Then
@@ -317,8 +323,7 @@ Public Class Form1
             End If
         Next
         File.WriteAllText(filePath, sb.ToString)
-        'Process.Start(filePath)	'Opens the file immediately after writing
-        'Ja tu chce zapisac ten plik na dysku a nie go otwierac.
+        'Process.Start(filePath)	'Opens the file immediately after writing; not needed generally, only for debugging.
         My.Computer.FileSystem.WriteAllText((sSciezka.Text & filePath), sb.ToString, False)
     End Sub
 

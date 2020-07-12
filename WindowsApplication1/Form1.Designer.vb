@@ -31,6 +31,12 @@ Partial Class Form1
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.StatisticsBox = New System.Windows.Forms.GroupBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.labelFRGCounter = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.ProgressBar2 = New System.Windows.Forms.ProgressBar()
         Me.bGenerujRaportPDF = New System.Windows.Forms.Button()
@@ -42,8 +48,12 @@ Partial Class Form1
         Me.s_FilterLabel = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.labelPPTCounter = New System.Windows.Forms.Label()
+        Me.labelEmailCounter = New System.Windows.Forms.Label()
+        Me.labelInsimCounter = New System.Windows.Forms.Label()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
+        Me.StatisticsBox.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
@@ -125,6 +135,7 @@ Partial Class Form1
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.StatisticsBox)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.ProgressBar2)
         Me.GroupBox1.Controls.Add(Me.bGenerujRaportPDF)
@@ -142,6 +153,68 @@ Partial Class Form1
         Me.GroupBox1.TabIndex = 9
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Ustawienia"
+        '
+        'StatisticsBox
+        '
+        Me.StatisticsBox.Controls.Add(Me.labelInsimCounter)
+        Me.StatisticsBox.Controls.Add(Me.labelEmailCounter)
+        Me.StatisticsBox.Controls.Add(Me.labelPPTCounter)
+        Me.StatisticsBox.Controls.Add(Me.Label9)
+        Me.StatisticsBox.Controls.Add(Me.Label8)
+        Me.StatisticsBox.Controls.Add(Me.Label7)
+        Me.StatisticsBox.Controls.Add(Me.labelFRGCounter)
+        Me.StatisticsBox.Controls.Add(Me.Label6)
+        Me.StatisticsBox.Location = New System.Drawing.Point(6, 154)
+        Me.StatisticsBox.Name = "StatisticsBox"
+        Me.StatisticsBox.Size = New System.Drawing.Size(228, 167)
+        Me.StatisticsBox.TabIndex = 22
+        Me.StatisticsBox.TabStop = False
+        Me.StatisticsBox.Text = "Statystyki"
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(6, 55)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(40, 13)
+        Me.Label9.TabIndex = 20
+        Me.Label9.Text = "IN SIM"
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(6, 42)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(108, 13)
+        Me.Label8.TabIndex = 19
+        Me.Label8.Text = "Email (po stronie kon)"
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(6, 29)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(60, 13)
+        Me.Label7.TabIndex = 18
+        Me.Label7.Text = "Powerpoint"
+        '
+        'labelFRGCounter
+        '
+        Me.labelFRGCounter.Location = New System.Drawing.Point(142, 16)
+        Me.labelFRGCounter.Name = "labelFRGCounter"
+        Me.labelFRGCounter.Size = New System.Drawing.Size(80, 13)
+        Me.labelFRGCounter.TabIndex = 17
+        Me.labelFRGCounter.Text = "0"
+        Me.labelFRGCounter.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(6, 16)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(85, 13)
+        Me.Label6.TabIndex = 17
+        Me.Label6.Text = "Free for detailing"
         '
         'Label5
         '
@@ -256,6 +329,33 @@ Partial Class Form1
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(1184, 761)
         Me.TableLayoutPanel1.TabIndex = 11
         '
+        'labelPPTCounter
+        '
+        Me.labelPPTCounter.Location = New System.Drawing.Point(142, 29)
+        Me.labelPPTCounter.Name = "labelPPTCounter"
+        Me.labelPPTCounter.Size = New System.Drawing.Size(80, 13)
+        Me.labelPPTCounter.TabIndex = 21
+        Me.labelPPTCounter.Text = "0"
+        Me.labelPPTCounter.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'labelEmailCounter
+        '
+        Me.labelEmailCounter.Location = New System.Drawing.Point(142, 42)
+        Me.labelEmailCounter.Name = "labelEmailCounter"
+        Me.labelEmailCounter.Size = New System.Drawing.Size(80, 13)
+        Me.labelEmailCounter.TabIndex = 22
+        Me.labelEmailCounter.Text = "0"
+        Me.labelEmailCounter.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'labelInsimCounter
+        '
+        Me.labelInsimCounter.Location = New System.Drawing.Point(142, 55)
+        Me.labelInsimCounter.Name = "labelInsimCounter"
+        Me.labelInsimCounter.Size = New System.Drawing.Size(80, 13)
+        Me.labelInsimCounter.TabIndex = 23
+        Me.labelInsimCounter.Text = "0"
+        Me.labelInsimCounter.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -267,6 +367,8 @@ Partial Class Form1
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.StatisticsBox.ResumeLayout(False)
+        Me.StatisticsBox.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
         Me.TableLayoutPanel1.ResumeLayout(False)
@@ -294,4 +396,13 @@ Partial Class Form1
     Friend WithEvents bGenerujRaportPDF As Button
     Friend WithEvents Label5 As Label
     Friend WithEvents ProgressBar2 As ProgressBar
+    Friend WithEvents StatisticsBox As GroupBox
+    Friend WithEvents labelFRGCounter As Label
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label9 As Label
+    Friend WithEvents Label8 As Label
+    Friend WithEvents Label7 As Label
+    Friend WithEvents labelPPTCounter As Label
+    Friend WithEvents labelEmailCounter As Label
+    Friend WithEvents labelInsimCounter As Label
 End Class
