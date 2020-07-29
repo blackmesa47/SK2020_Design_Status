@@ -32,6 +32,9 @@ Partial Class Form1
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.StatisticsBox = New System.Windows.Forms.GroupBox()
+        Me.labelInsimCounter = New System.Windows.Forms.Label()
+        Me.labelEmailCounter = New System.Windows.Forms.Label()
+        Me.labelPPTCounter = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
@@ -48,9 +51,7 @@ Partial Class Form1
         Me.s_FilterLabel = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
-        Me.labelPPTCounter = New System.Windows.Forms.Label()
-        Me.labelEmailCounter = New System.Windows.Forms.Label()
-        Me.labelInsimCounter = New System.Windows.Forms.Label()
+        Me.errorMessageStationFilter = New System.Windows.Forms.Label()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.StatisticsBox.SuspendLayout()
@@ -60,7 +61,7 @@ Partial Class Form1
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(20, 452)
+        Me.Button1.Location = New System.Drawing.Point(17, 491)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(214, 39)
         Me.Button1.TabIndex = 0
@@ -69,7 +70,7 @@ Partial Class Form1
         '
         'ProgressBar1
         '
-        Me.ProgressBar1.Location = New System.Drawing.Point(20, 433)
+        Me.ProgressBar1.Location = New System.Drawing.Point(20, 472)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(169, 13)
         Me.ProgressBar1.TabIndex = 1
@@ -118,7 +119,7 @@ Partial Class Form1
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(195, 433)
+        Me.Label3.Location = New System.Drawing.Point(195, 472)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(39, 13)
         Me.Label3.TabIndex = 7
@@ -170,6 +171,33 @@ Partial Class Form1
         Me.StatisticsBox.TabIndex = 22
         Me.StatisticsBox.TabStop = False
         Me.StatisticsBox.Text = "Statystyki"
+        '
+        'labelInsimCounter
+        '
+        Me.labelInsimCounter.Location = New System.Drawing.Point(142, 55)
+        Me.labelInsimCounter.Name = "labelInsimCounter"
+        Me.labelInsimCounter.Size = New System.Drawing.Size(80, 13)
+        Me.labelInsimCounter.TabIndex = 23
+        Me.labelInsimCounter.Text = "0"
+        Me.labelInsimCounter.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'labelEmailCounter
+        '
+        Me.labelEmailCounter.Location = New System.Drawing.Point(142, 42)
+        Me.labelEmailCounter.Name = "labelEmailCounter"
+        Me.labelEmailCounter.Size = New System.Drawing.Size(80, 13)
+        Me.labelEmailCounter.TabIndex = 22
+        Me.labelEmailCounter.Text = "0"
+        Me.labelEmailCounter.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
+        'labelPPTCounter
+        '
+        Me.labelPPTCounter.Location = New System.Drawing.Point(142, 29)
+        Me.labelPPTCounter.Name = "labelPPTCounter"
+        Me.labelPPTCounter.Size = New System.Drawing.Size(80, 13)
+        Me.labelPPTCounter.TabIndex = 21
+        Me.labelPPTCounter.Text = "0"
+        Me.labelPPTCounter.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'Label9
         '
@@ -253,6 +281,7 @@ Partial Class Form1
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.errorMessageStationFilter)
         Me.GroupBox2.Controls.Add(Me.s_FiltrStacjiAktywny)
         Me.GroupBox2.Controls.Add(Me.Label4)
         Me.GroupBox2.Controls.Add(Me.s_UkryjFreeForDetailing2)
@@ -261,7 +290,7 @@ Partial Class Form1
         Me.GroupBox2.Controls.Add(Me.Label2)
         Me.GroupBox2.Location = New System.Drawing.Point(6, 327)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(228, 100)
+        Me.GroupBox2.Size = New System.Drawing.Size(228, 139)
         Me.GroupBox2.TabIndex = 16
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Filtry aktywne"
@@ -329,32 +358,14 @@ Partial Class Form1
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(1184, 761)
         Me.TableLayoutPanel1.TabIndex = 11
         '
-        'labelPPTCounter
+        'errorMessageStationFilter
         '
-        Me.labelPPTCounter.Location = New System.Drawing.Point(142, 29)
-        Me.labelPPTCounter.Name = "labelPPTCounter"
-        Me.labelPPTCounter.Size = New System.Drawing.Size(80, 13)
-        Me.labelPPTCounter.TabIndex = 21
-        Me.labelPPTCounter.Text = "0"
-        Me.labelPPTCounter.TextAlign = System.Drawing.ContentAlignment.TopRight
-        '
-        'labelEmailCounter
-        '
-        Me.labelEmailCounter.Location = New System.Drawing.Point(142, 42)
-        Me.labelEmailCounter.Name = "labelEmailCounter"
-        Me.labelEmailCounter.Size = New System.Drawing.Size(80, 13)
-        Me.labelEmailCounter.TabIndex = 22
-        Me.labelEmailCounter.Text = "0"
-        Me.labelEmailCounter.TextAlign = System.Drawing.ContentAlignment.TopRight
-        '
-        'labelInsimCounter
-        '
-        Me.labelInsimCounter.Location = New System.Drawing.Point(142, 55)
-        Me.labelInsimCounter.Name = "labelInsimCounter"
-        Me.labelInsimCounter.Size = New System.Drawing.Size(80, 13)
-        Me.labelInsimCounter.TabIndex = 23
-        Me.labelInsimCounter.Text = "0"
-        Me.labelInsimCounter.TextAlign = System.Drawing.ContentAlignment.TopRight
+        Me.errorMessageStationFilter.AutoSize = True
+        Me.errorMessageStationFilter.Location = New System.Drawing.Point(7, 120)
+        Me.errorMessageStationFilter.Name = "errorMessageStationFilter"
+        Me.errorMessageStationFilter.Size = New System.Drawing.Size(102, 13)
+        Me.errorMessageStationFilter.TabIndex = 17
+        Me.errorMessageStationFilter.Text = "Numery stacji są OK"
         '
         'Form1
         '
@@ -405,4 +416,5 @@ Partial Class Form1
     Friend WithEvents labelPPTCounter As Label
     Friend WithEvents labelEmailCounter As Label
     Friend WithEvents labelInsimCounter As Label
+    Friend WithEvents errorMessageStationFilter As Label
 End Class

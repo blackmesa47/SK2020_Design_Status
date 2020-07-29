@@ -1,6 +1,7 @@
 ﻿Imports System.ComponentModel
 Imports System.IO
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CompilerServices
 Imports Microsoft.VisualBasic.MyServices
 Public Module GlobalVariables
@@ -97,16 +98,20 @@ Public Class Form1
                                         Dim enumerator5 As IEnumerator(Of String) = enumerable.GetEnumerator()
                                         While enumerator5.MoveNext()
                                             Dim current5 As String = enumerator5.Current
-                                            Dim bool_9 As Boolean = current5.Contains("frg")
+                                            'Dim bool_9 As Boolean = current5.Contains("frg.txt")
+                                            'new method of searching, I hope it is faster, or at least not slower
+                                            Dim bool_9 As Boolean = Regex.IsMatch(current5, "frg\.\w{3,4}$")
                                             If bool_9 Then
                                                 bool_6 = True
                                             End If
-                                            Dim bool_7 As Boolean = current5.Contains(".pptx") OrElse current5.Contains(".ppt")
+                                            'Dim bool_7 As Boolean = current5.Contains(".pptx") OrElse current5.Contains(".ppt")
+                                            Dim bool_7 As Boolean = Regex.IsMatch(current5, "pptx?$")
                                             If bool_7 Then
                                                 bool_4 = True
                                                 NazwaPlikuPrezentacji = current5.Substring(str_4.Length + 1)
                                             End If
-                                            Dim bool_8 As Boolean = current5.Contains(".eml") OrElse current5.Contains(".msg")
+                                            'Dim bool_8 As Boolean = current5.Contains(".eml") OrElse current5.Contains(".msg")
+                                            Dim bool_8 As Boolean = Regex.IsMatch(current5, "eml$|msg$")
                                             If bool_8 Then
                                                 bool_5 = True
                                                 TematMaila = current5.Substring(str_4.Length + 1)
@@ -160,7 +165,7 @@ Public Class Form1
                                                 bool_5 = True
                                                 str = current6.Substring(str_7.Length + 1)
                                             End If
-                                            Dim bool_15 As Boolean = current6.Contains("frg")
+                                            Dim bool_15 As Boolean = current6.Contains("frg.")
                                             If bool_15 Then
                                                 bool_6 = True
                                             End If
@@ -215,6 +220,8 @@ Public Class Form1
         '***** USTAWIENIA *****
         Dim NazwaProjektu As String = "uniwersalne XNNx_YYMMDD" 'wpisz nazwe projektu
         Dim DomyslnieTylkoOstatnieWersje As Boolean = True 'czy po włączeniu programu ma domyślnie pokazać tylko najnowsze loopy kontrukcji
+        errorMessageStationFilter.Text = "Numery stacji są OK"
+        errorMessageStationFilter.ForeColor = Color.DarkGreen
         '***** USTAWIENIA KONIEC *****
         '***** USTAWIENIA MYSETTINGS LADUJ *****
         TextBoxStacja.Text = My.Settings.stNumeryStacji
@@ -248,7 +255,14 @@ Public Class Form1
             Exit Sub
         End If
         'jesli ustawiony jest filtr na stacje, nie rysuj wierszy z poza filtra:
-        Dim sCurrentRowStNr As Integer = Convert.ToDecimal(Mid(dgvRow.Cells("sFixtureST").Value, 3))
+        'Dim sCurrentRowStNr As Integer = Convert.ToDecimal(Mid(dgvRow.Cells("sFixtureST").Value, 3))
+        Dim sCurrentRowStNr As Integer
+        'new awesome method of checking station number, if station number does not match the structure it will not result in error, only will not be listed in filtered view.
+        If Not Int32.TryParse(Mid(dgvRow.Cells("sFixtureST").Value, 3), sCurrentRowStNr) Then
+            errorMessageStationFilter.Text = "Występują stacje niepoprawnie nazwane!"
+            errorMessageStationFilter.ForeColor = Color.OrangeRed
+        End If
+        'sCurrentRowStNr = Int32.Parse(Mid(dgvRow.Cells("sFixtureST").Value, 3))
         If (sCurrentRowStNr < s_FiltrStacjiMin Or sCurrentRowStNr > s_FiltrStacjiMax) And s_FiltrStacjiAktywny.Checked Then
             dgvRow.Visible = False
             Exit Sub
