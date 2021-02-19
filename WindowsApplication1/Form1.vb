@@ -11,7 +11,6 @@ Public Module GlobalVariables
 	Public s_FiltrStacjiMax As Integer = 20000
 End Module
 Public Class Form1
-    Private Const skNazwaRaportu As String = "\Raport.pdf"
 
     Private Sub AddNewColumn(ByRef table As DataTable, columnType As String, columnName As String)
         Dim dataColumn As DataColumn = table.Columns.Add(columnName, Type.[GetType](columnType))
@@ -82,7 +81,10 @@ Public Class Form1
                                 End While
                                 'End Try
                                 Array.Sort(arr_2)
-                                Dim checked As Boolean = CheckBox1.Checked 'tu chyba się sprawdzało, czy ma pokazywać tylko ostatnie loopy konstrukcji
+                                Dim checked As Boolean = CheckBox1.Checked
+                                '**************************************************************************************************************************
+                                'tu chyba się sprawdzało, czy ma pokazywać tylko ostatnie loopy konstrukcji
+                                '**************************************************************************************************************************
                                 If checked Then
                                     Dim bool_3 As Boolean = Directory.EnumerateDirectories(current2 + "\" + arr_(i)).Count > 0
                                     If bool_3 Then
@@ -94,23 +96,25 @@ Public Class Form1
                                         Dim bool_4 As Boolean = False
                                         Dim bool_5 As Boolean = False
                                         Dim bool_6 As Boolean = False
+                                        Dim bool_13 As Boolean = False
                                         'Try
                                         Dim enumerator5 As IEnumerator(Of String) = enumerable.GetEnumerator()
                                         While enumerator5.MoveNext()
                                             Dim current5 As String = enumerator5.Current
-                                            'Dim bool_9 As Boolean = current5.Contains("frg.txt")
                                             'new method of searching, I hope it is faster, or at least not slower
-                                            Dim bool_9 As Boolean = Regex.IsMatch(current5, "frg\.\w{3,4}$")
+                                            Dim bool_9 As Boolean = Regex.IsMatch(current5, "[^w]frg\.\w{3,4}$")
                                             If bool_9 Then
                                                 bool_6 = True
                                             End If
-                                            'Dim bool_7 As Boolean = current5.Contains(".pptx") OrElse current5.Contains(".ppt")
+                                            Dim bool_14 As Boolean = Regex.IsMatch(current5, "wfrg\.\w{3,4}$")
+                                            If bool_14 Then
+                                                bool_13 = True
+                                            End If
                                             Dim bool_7 As Boolean = Regex.IsMatch(current5, "pptx?$")
                                             If bool_7 Then
                                                 bool_4 = True
                                                 NazwaPlikuPrezentacji = current5.Substring(str_4.Length + 1)
                                             End If
-                                            'Dim bool_8 As Boolean = current5.Contains(".eml") OrElse current5.Contains(".msg")
                                             Dim bool_8 As Boolean = Regex.IsMatch(current5, "eml$|msg$")
                                             If bool_8 Then
                                                 bool_5 = True
@@ -125,21 +129,29 @@ Public Class Form1
                                             AktStatusKonstrukcji = "Free for detailing"
                                             labelFRGCounter.Text = labelFRGCounter.Text + 1
                                         Else
-                                            Dim bool_11 As Boolean = bool_5
-                                            If bool_11 Then
-                                                AktStatusKonstrukcji = "EML/MSG (" + TematMaila + ")"
-                                                labelEmailCounter.Text = labelEmailCounter.Text + 1
+                                            If bool_13 AndAlso bool_5 Then
+                                                AktStatusKonstrukcji = "Warunkowe Free for detailing"
+                                                labelFRGCounter.Text = labelFRGCounter.Text + 1
                                             Else
-                                                Dim bool_12 As Boolean = bool_4
-                                                If bool_12 Then
-                                                    AktStatusKonstrukcji = "PPT (" + NazwaPlikuPrezentacji + ")"
-                                                    labelPPTCounter.Text = labelPPTCounter.Text + 1
+                                                Dim bool_11 As Boolean = bool_5
+                                                If bool_11 Then
+                                                    AktStatusKonstrukcji = "EML/MSG (" + TematMaila + ")"
+                                                    labelEmailCounter.Text = labelEmailCounter.Text + 1
+                                                Else
+                                                    Dim bool_12 As Boolean = bool_4
+                                                    If bool_12 Then
+                                                        AktStatusKonstrukcji = "PPT (" + NazwaPlikuPrezentacji + ")"
+                                                        labelPPTCounter.Text = labelPPTCounter.Text + 1
+                                                    End If
                                                 End If
                                             End If
                                         End If
                                         AddNewRow(table, AktNazwaLinii, AktNazwaStacji, AktNazwaKonstrukcji, AktNazwaLoopKonstrukcji, AktStatusKonstrukcji)
                                     End If
-                                Else 'a tu warunek, jeśli miałby jednak pokazać wszystkie loopy konstrukcji
+                                    '**************************************************************************************************************************
+                                    'a tu warunek, jeśli miałby jednak pokazać wszystkie loopy konstrukcji
+                                    '**************************************************************************************************************************
+                                Else
                                     Dim int_4 As Integer = int_3 - 1
                                     Dim j As Integer = 0
                                     While j <= int_4
@@ -190,6 +202,7 @@ Public Class Form1
                                         Math.Max(System.Threading.Interlocked.Increment(j), j - 1)
                                     End While
                                 End If
+                                '**************************************************************************************************************************
                                 Math.Max(System.Threading.Interlocked.Increment(i), i - 1)
                             End While
                         End If
@@ -239,6 +252,7 @@ Public Class Form1
         My.Settings.stNumeryStacji = TextBoxStacja.Text
         My.Settings.stFiltrStacjiAktywny = s_FiltrStacjiAktywny.Checked
     End Sub
+
     Private Sub DataGridView1_CellMouseDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentDoubleClick
         Dim bool_ As Boolean = e.RowIndex >= 0 AndAlso e.ColumnIndex >= 0
         If bool_ Then
@@ -246,6 +260,75 @@ Public Class Form1
             NewLateBinding.LateCall(Nothing, GetType(Process), "Start", New Object() {Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Me.sSciezka.Text + "\folderKON_", dataGridViewRow.Cells(0).Value), "\"), dataGridViewRow.Cells(1).Value), "\"), dataGridViewRow.Cells(2).Value), "\"), dataGridViewRow.Cells(3).Value)}, Nothing, Nothing, Nothing, True)
         End If
     End Sub
+
+    'wprowadzenie obslugi prawego klawisza
+    Private Sub DataGridView1_CellMouseDown(sender As Object, e As DataGridViewCellMouseEventArgs) Handles DataGridView1.CellMouseDown
+        If e.Button = 2097152 Then
+            If e.ColumnIndex <> -1 And e.RowIndex <> -1 Then
+                Me.DataGridView1.ClearSelection()
+                Dim cell = Me.DataGridView1.Item(e.ColumnIndex, e.RowIndex)
+                Me.DataGridView1.CurrentCell = cell
+                cell.Selected = True 'Needed if you right click twice on the same cell
+                DataGridView1.ContextMenuStrip = ContextMenuPetla
+            End If
+        End If
+    End Sub
+
+    'Elementy menu prawego klawisza:
+    'Otworz folder
+    Private Sub OtwórzFolderToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OtwórzFolderToolStripMenuItem.Click
+        'DataGridView1.Rows(mouseLocation.RowIndex) _
+        '.Cells(mouseLocation.ColumnIndex) _
+        '.Style.BackColor = Color.Red
+        DataGridView1.Rows(mouseLocation.RowIndex).InheritedStyle.BackColor = Color.Red
+        Dim dataGridViewRow As DataGridViewRow = DataGridView1.Rows(mouseLocation.RowIndex)
+        NewLateBinding.LateCall(Nothing, GetType(Process), "Start", New Object() {Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Me.sSciezka.Text + "\folderKON_", dataGridViewRow.Cells(0).Value), "\"), dataGridViewRow.Cells(1).Value), "\"), dataGridViewRow.Cells(2).Value), "\"), dataGridViewRow.Cells(3).Value)}, Nothing, Nothing, Nothing, True)
+    End Sub
+    Private Sub sFrgToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles sFrgToolStripMenuItem.Click
+        Dim dataGridViewRow As DataGridViewRow = DataGridView1.Rows(mouseLocation.RowIndex)
+        Dim sPath As String = Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Me.sSciezka.Text + "\folderKON_", dataGridViewRow.Cells(0).Value), "\"), dataGridViewRow.Cells(1).Value), "\"), dataGridViewRow.Cells(2).Value), "\"), dataGridViewRow.Cells(3).Value)
+        If Not (My.Computer.FileSystem.FileExists(sPath + "\frg.txt") Or My.Computer.FileSystem.FileExists(sPath + "\wfrg.txt")) Then
+            Dim fs As FileStream = File.Create(sPath + "\frg.txt")
+            NewLateBinding.LateCall(Nothing, GetType(Process), "Start", New Object() {Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Me.sSciezka.Text + "\folderKON_", dataGridViewRow.Cells(0).Value), "\"), dataGridViewRow.Cells(1).Value), "\"), dataGridViewRow.Cells(2).Value), "\"), dataGridViewRow.Cells(3).Value)}, Nothing, Nothing, Nothing, True)
+        Else
+            MsgBox("Konstrukcja juz wczesniej zostala zwolniona", vbOKOnly, "Blad")
+        End If
+    End Sub
+    Private Sub sWfrgToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles sWfrgToolStripMenuItem.Click
+        Dim dataGridViewRow As DataGridViewRow = DataGridView1.Rows(mouseLocation.RowIndex)
+        Dim sPath As String = Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Me.sSciezka.Text + "\folderKON_", dataGridViewRow.Cells(0).Value), "\"), dataGridViewRow.Cells(1).Value), "\"), dataGridViewRow.Cells(2).Value), "\"), dataGridViewRow.Cells(3).Value)
+        If Not (My.Computer.FileSystem.FileExists(sPath + "\frg.txt") Or My.Computer.FileSystem.FileExists(sPath + "\wfrg.txt")) Then
+            Dim fs As FileStream = File.Create(sPath + "\wfrg.txt")
+            Dim info As Byte() = New UTF8Encoding(True).GetBytes("Powody warunkowej FRG:")
+            fs.Write(info, 0, info.Length)
+            fs.Close()
+            'CreateObject("Shell.Application").Open(sPath + "\wfrg.txt")
+            Process.Start(sPath + "\wfrg.txt")
+            NewLateBinding.LateCall(Nothing, GetType(Process), "Start", New Object() {Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Me.sSciezka.Text + "\folderKON_", dataGridViewRow.Cells(0).Value), "\"), dataGridViewRow.Cells(1).Value), "\"), dataGridViewRow.Cells(2).Value), "\"), dataGridViewRow.Cells(3).Value)}, Nothing, Nothing, Nothing, True)
+        Else
+            MsgBox("Konstrukcja juz wczesniej zostala zwolniona", vbOKOnly, "Blad")
+        End If
+    End Sub
+
+    Private Sub sWfrgShowCommentToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles sWfrgShowCommentToolStripMenuItem.Click
+        Dim dataGridViewRow As DataGridViewRow = DataGridView1.Rows(mouseLocation.RowIndex)
+        Dim sPath As String = Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Operators.ConcatenateObject(Me.sSciezka.Text + "\folderKON_", dataGridViewRow.Cells(0).Value), "\"), dataGridViewRow.Cells(1).Value), "\"), dataGridViewRow.Cells(2).Value), "\"), dataGridViewRow.Cells(3).Value)
+        If My.Computer.FileSystem.FileExists(sPath + "\wfrg.txt") Then
+            Process.Start(sPath + "\wfrg.txt")
+        Else
+            MsgBox("Wybrana konstrukcja nie jest warunkowo zwolniona, komentarz nie istenieje.", vbOKOnly, "Blad")
+        End If
+    End Sub
+    'Konfiguracja menu prawego klawisza
+    Private mouseLocation As DataGridViewCellEventArgs
+
+    ' Deal with hovering over a cell.
+    Private Sub dataGridView_CellMouseEnter(ByVal sender As Object,
+    ByVal location As DataGridViewCellEventArgs) _
+    Handles DataGridView1.CellMouseEnter
+        mouseLocation = location
+    End Sub
+
 
     Private Sub DataGridView1_RowPostPaint(sender As Object, e As System.Windows.Forms.DataGridViewRowPostPaintEventArgs) Handles DataGridView1.RowPostPaint
         Dim dgvRow As DataGridViewRow = Me.DataGridView1.Rows(e.RowIndex)
@@ -272,6 +355,9 @@ Public Class Form1
             dgvRow.DefaultCellStyle.BackColor = Color.LightBlue
         ElseIf dgvRow.Cells("sFrgStat").Value = "Free for detailing" Then
             dgvRow.DefaultCellStyle.BackColor = Color.LightGreen
+        ElseIf dgvRow.Cells("sFrgStat").Value = "Warunkowe Free for detailing" Then
+            dgvRow.DefaultCellStyle.BackColor = Color.LightGreen
+            dgvRow.DefaultCellStyle.Font = New Font(DataGridView1.Font, FontStyle.Underline)
         ElseIf dgvRow.Cells("sFrgStat").Value = "in SIM" Or dgvRow.Cells("sFrgStat").Value.Contains("PPT ") Then
             dgvRow.DefaultCellStyle.BackColor = Color.Gold
         End If
@@ -341,48 +427,4 @@ Public Class Form1
         My.Computer.FileSystem.WriteAllText((sSciezka.Text & filePath), sb.ToString, False)
     End Sub
 
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles bGenerujRaportPDF.Click
-        ProgressBar2.Value = 20
-        Label5.Text = "czekaj"
-        Dim mypath As String = sSciezka.Text
-        Dim XLApp As Object
-        Dim wr As Object
-        XLApp = CreateObject("Excel.Application")
-        XLApp.visible = False   ' not required, you do not need to see this happening
-        XLApp.DisplayAlerts = False 'IT WORKS TO DISABLE ALERT PROMPT
-        Dim fname As String = "\konfiguracjaRaportu.xlsx"
-        Try
-            wr = XLApp.workbooks.Open(mypath & fname)
-            wr.refreshall()
-            'Application.Wait(Now + TimeValue("0:00:05"))
-            System.Threading.Thread.Sleep(1000)
-            wr.WorkSheets.Select()
-            Try
-                wr.ActiveSheet.ExportAsFixedFormat(0, mypath & skNazwaRaportu)
-            Catch errorReadOnly As Exception
-                Dim msg = MsgBox("Błąd, nie zapisanego nowego raportu. Sprawdz czy plik nie jest już otwarty i spróbuj jeszcze raz." & vbNewLine & "Kod błędu:" & vbNewLine & errorReadOnly.Message)
-            End Try
-            wr.WorkSheets(1).Select()
-            wr.Save
-            wr.Close
-            XLApp.Quit
-            Process.Start(mypath & skNazwaRaportu)
-            'wr = Nothing
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(XLApp)
-            XLApp = Nothing
-            ProgressBar2.Value = 100
-            Label5.Text = "koniec"
-        Catch ex As Exception
-            Dim msg = MsgBox("Błąd, nie znaleziono pliku konfiguracji Power Pivot. Skontaktuj sie z administartorem projektu." & vbNewLine & "Kod błędu:" & vbNewLine & ex.Message)
-        Finally
-            'wr = Nothing
-            If Not XLApp = Nothing Then
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(XLApp)
-            End If
-            XLApp = Nothing
-            ProgressBar2.Value = 100
-            Label5.Text = "koniec"
-        End Try
-
-    End Sub
 End Class

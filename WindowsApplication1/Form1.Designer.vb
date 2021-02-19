@@ -22,6 +22,7 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.sSciezka = New System.Windows.Forms.TextBox()
@@ -40,23 +41,28 @@ Partial Class Form1
         Me.Label7 = New System.Windows.Forms.Label()
         Me.labelFRGCounter = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.ProgressBar2 = New System.Windows.Forms.ProgressBar()
-        Me.bGenerujRaportPDF = New System.Windows.Forms.Button()
         Me.buttonEksportDoCsv = New System.Windows.Forms.Button()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.errorMessageStationFilter = New System.Windows.Forms.Label()
         Me.s_FiltrStacjiAktywny = New System.Windows.Forms.CheckBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.s_UkryjFreeForDetailing2 = New System.Windows.Forms.CheckBox()
         Me.s_FilterLabel = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
-        Me.errorMessageStationFilter = New System.Windows.Forms.Label()
+        Me.ContextMenuPetla = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.OtwórzFolderToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.sFrgToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.sWfrgToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
+        Me.sWfrgShowCommentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.StatisticsBox.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TableLayoutPanel1.SuspendLayout()
+        Me.ContextMenuPetla.SuspendLayout()
         Me.SuspendLayout()
         '
         'Button1
@@ -137,9 +143,6 @@ Partial Class Form1
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.StatisticsBox)
-        Me.GroupBox1.Controls.Add(Me.Label5)
-        Me.GroupBox1.Controls.Add(Me.ProgressBar2)
-        Me.GroupBox1.Controls.Add(Me.bGenerujRaportPDF)
         Me.GroupBox1.Controls.Add(Me.buttonEksportDoCsv)
         Me.GroupBox1.Controls.Add(Me.GroupBox2)
         Me.GroupBox1.Controls.Add(Me.Label1)
@@ -244,37 +247,11 @@ Partial Class Form1
         Me.Label6.TabIndex = 17
         Me.Label6.Text = "Free for detailing"
         '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(192, 680)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(16, 13)
-        Me.Label5.TabIndex = 21
-        Me.Label5.Text = "..."
-        '
-        'ProgressBar2
-        '
-        Me.ProgressBar2.Location = New System.Drawing.Point(96, 680)
-        Me.ProgressBar2.Name = "ProgressBar2"
-        Me.ProgressBar2.Size = New System.Drawing.Size(93, 13)
-        Me.ProgressBar2.TabIndex = 20
-        '
-        'bGenerujRaportPDF
-        '
-        Me.bGenerujRaportPDF.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.bGenerujRaportPDF.Location = New System.Drawing.Point(96, 699)
-        Me.bGenerujRaportPDF.Name = "bGenerujRaportPDF"
-        Me.bGenerujRaportPDF.Size = New System.Drawing.Size(135, 30)
-        Me.bGenerujRaportPDF.TabIndex = 19
-        Me.bGenerujRaportPDF.Text = "Generuj raport PDF"
-        Me.bGenerujRaportPDF.UseVisualStyleBackColor = False
-        '
         'buttonEksportDoCsv
         '
         Me.buttonEksportDoCsv.Location = New System.Drawing.Point(6, 699)
         Me.buttonEksportDoCsv.Name = "buttonEksportDoCsv"
-        Me.buttonEksportDoCsv.Size = New System.Drawing.Size(84, 30)
+        Me.buttonEksportDoCsv.Size = New System.Drawing.Size(228, 30)
         Me.buttonEksportDoCsv.TabIndex = 17
         Me.buttonEksportDoCsv.Text = "Eksport .csv"
         Me.buttonEksportDoCsv.UseVisualStyleBackColor = True
@@ -294,6 +271,15 @@ Partial Class Form1
         Me.GroupBox2.TabIndex = 16
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Filtry aktywne"
+        '
+        'errorMessageStationFilter
+        '
+        Me.errorMessageStationFilter.AutoSize = True
+        Me.errorMessageStationFilter.Location = New System.Drawing.Point(7, 120)
+        Me.errorMessageStationFilter.Name = "errorMessageStationFilter"
+        Me.errorMessageStationFilter.Size = New System.Drawing.Size(102, 13)
+        Me.errorMessageStationFilter.TabIndex = 17
+        Me.errorMessageStationFilter.Text = "Numery stacji są OK"
         '
         's_FiltrStacjiAktywny
         '
@@ -358,14 +344,48 @@ Partial Class Form1
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(1184, 761)
         Me.TableLayoutPanel1.TabIndex = 11
         '
-        'errorMessageStationFilter
+        'ContextMenuPetla
         '
-        Me.errorMessageStationFilter.AutoSize = True
-        Me.errorMessageStationFilter.Location = New System.Drawing.Point(7, 120)
-        Me.errorMessageStationFilter.Name = "errorMessageStationFilter"
-        Me.errorMessageStationFilter.Size = New System.Drawing.Size(102, 13)
-        Me.errorMessageStationFilter.TabIndex = 17
-        Me.errorMessageStationFilter.Text = "Numery stacji są OK"
+        Me.ContextMenuPetla.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OtwórzFolderToolStripMenuItem, Me.ToolStripSeparator1, Me.sFrgToolStripMenuItem, Me.sWfrgToolStripMenuItem, Me.sWfrgShowCommentToolStripMenuItem})
+        Me.ContextMenuPetla.Name = "ContextMenuPetla"
+        Me.ContextMenuPetla.Size = New System.Drawing.Size(375, 120)
+        '
+        'OtwórzFolderToolStripMenuItem
+        '
+        Me.OtwórzFolderToolStripMenuItem.Name = "OtwórzFolderToolStripMenuItem"
+        Me.OtwórzFolderToolStripMenuItem.Size = New System.Drawing.Size(374, 22)
+        Me.OtwórzFolderToolStripMenuItem.Text = "Otwórz folder"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(371, 6)
+        '
+        'sFrgToolStripMenuItem
+        '
+        Me.sFrgToolStripMenuItem.Name = "sFrgToolStripMenuItem"
+        Me.sFrgToolStripMenuItem.Size = New System.Drawing.Size(374, 22)
+        Me.sFrgToolStripMenuItem.Text = "Zwolnij konstrukcje do Detailingu"
+        '
+        'sWfrgToolStripMenuItem
+        '
+        Me.sWfrgToolStripMenuItem.Name = "sWfrgToolStripMenuItem"
+        Me.sWfrgToolStripMenuItem.Size = New System.Drawing.Size(374, 22)
+        Me.sWfrgToolStripMenuItem.Text = "Zwolnij konstrukcje warunkowo do Detailingu"
+        '
+        'ToolStripTextBox1
+        '
+        Me.ToolStripTextBox1.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.ToolStripTextBox1.Name = "ToolStripTextBox1"
+        Me.ToolStripTextBox1.Size = New System.Drawing.Size(100, 23)
+        Me.ToolStripTextBox1.Text = "Test string dsfi sydif ysdaiyf isydaify sdyfi ysdfy isdyfisyd iysdyfdsi yfisdyisd" &
+    "y fisydify dsifyidsyfidsyfidsyfidsyfisdyifydsifysdifysi"
+        '
+        'sWfrgShowCommentToolStripMenuItem
+        '
+        Me.sWfrgShowCommentToolStripMenuItem.Name = "sWfrgShowCommentToolStripMenuItem"
+        Me.sWfrgShowCommentToolStripMenuItem.Size = New System.Drawing.Size(374, 22)
+        Me.sWfrgShowCommentToolStripMenuItem.Text = "Pokaz komentarz warunkowego zwolnienia do detailingu"
         '
         'Form1
         '
@@ -383,6 +403,7 @@ Partial Class Form1
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
         Me.TableLayoutPanel1.ResumeLayout(False)
+        Me.ContextMenuPetla.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -404,9 +425,6 @@ Partial Class Form1
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents s_FiltrStacjiAktywny As CheckBox
     Friend WithEvents buttonEksportDoCsv As Button
-    Friend WithEvents bGenerujRaportPDF As Button
-    Friend WithEvents Label5 As Label
-    Friend WithEvents ProgressBar2 As ProgressBar
     Friend WithEvents StatisticsBox As GroupBox
     Friend WithEvents labelFRGCounter As Label
     Friend WithEvents Label6 As Label
@@ -417,4 +435,11 @@ Partial Class Form1
     Friend WithEvents labelEmailCounter As Label
     Friend WithEvents labelInsimCounter As Label
     Friend WithEvents errorMessageStationFilter As Label
+    Friend WithEvents ContextMenuPetla As ContextMenuStrip
+    Friend WithEvents OtwórzFolderToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents ToolStripTextBox1 As ToolStripTextBox
+    Friend WithEvents sFrgToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents sWfrgToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents sWfrgShowCommentToolStripMenuItem As ToolStripMenuItem
 End Class
